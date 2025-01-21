@@ -1,0 +1,81 @@
+# Multi-Domain Next.js Application Setup
+
+## Domain Structure
+
+### Development
+- Main site: `localhost:3000`
+- Hub: `localhost:3000/hub/*`
+- Run: `localhost:3000/run/*`
+
+### Production
+- Landing page: `zen.bot`
+- Hub: `hub.zen.bot`  //Logged in users
+- Run: `run.zen.bot`  //Platform admins
+
+## Project Structure
+```
+app/
+  layout.tsx
+  page.tsx         // Main landing
+  hub/
+    layout.tsx
+    page.tsx       // Hub landing
+    [...slug]/     // Hub routes
+      page.tsx
+  run/
+    layout.tsx
+    page.tsx       // Run landing
+    [...slug]/     // Run routes
+      page.tsx
+middleware.ts      // Domain routing
+```
+
+## Middleware Configuration
+```typescript
+// middleware.ts
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+  const url = request.nextUrl;
+  
+  if (process.env.NODE_ENV === 'development') {
+    return NextResponse.next();
+  }
+
+  // Production routing
+  if (url.hostname === 'hub.domain.com') {
+    url.pathname = `/hub${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+  
+  if (url.hostname === 'run.zen.bot') {
+    url.pathname = `/run${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  return NextResponse.next();
+}
+```
+
+## Cloudflare Pages Setup
+
+1. Create single project
+2. Deploy codebase
+3. Add custom domains:
+   - `domain.com`
+   - `hub.domain.com`
+   - `run.zen.bot`
+
+## Environment Variables
+```env
+NEXT_PUBLIC_MAIN_DOMAIN=domain.com
+NEXT_PUBLIC_HUB_DOMAIN=hub.domain.com
+NEXT_PUBLIC_RUN_DOMAIN=run.zen.bot
+```
+
+## Development
+Run `npm run dev` - all routes will be available through path-based routing on localhost:3000.
+
+## Production
+All routing handled automatically based on incoming domain. No additional configuration needed beyond Cloudflare custom domain setup.

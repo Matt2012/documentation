@@ -1,0 +1,78 @@
+---
+title: 'Architecture Decisions'
+description: 'Architecture Decisions'
+---
+
+# Architecture Decisions
+
+This document tracks key architectural decisions made during the development of ZenBot and the reasoning behind them.
+
+## Framework and Technology Choices
+
+| Decision | Reason |
+|----------|---------|
+| Next.js 14 with React 18 | - Latest stable version with improved performance<br>- App Router for better file-based routing<br>- Server Components for optimal performance<br>- Server Actions for form handling<br>- Improved image optimization<br>- Built-in TypeScript support<br>- Enhanced data fetching capabilities |
+| Supabase as backend platform | - Provides a complete backend solution with built-in authentication<br>- PostgreSQL database with real-time capabilities<br>- Row Level Security for fine-grained access control<br>- Built-in API generation saves development time<br>- Storage system suitable for document management<br>- Easy integration with Next.js |
+| shadcn/ui as component library | - Modern, accessible components built on Radix UI<br>- Simple installation via `npx shadcn@latest init`<br>- Components installed directly into project for maximum customization<br>- Highly customizable with Tailwind CSS<br>- Growing adoption in AI tools and platforms<br>- Excellent TypeScript support<br>- Active community and frequent updates |
+| next-mdx-remote for MDX processing | - Dynamic MDX rendering without build step<br>- Supports storing MDX in databases<br>- Flexible content loading from any source<br>- Built-in security features<br>- Efficient server-side rendering<br>- Compatible with Next.js App Router |
+| Cloudflare Pages for deployment | - Edge runtime for optimal global performance<br>- Seamless integration with Next.js<br>- Automatic builds and deployments<br>- Zero-configuration SSL<br>- Automatic CI/CD pipeline<br>- Global CDN distribution |
+
+## Version Requirements
+- Node.js >= 18.17
+- Next.js 14.x (Note: Next.js 15 is available, plan to upgrade when stable)
+- React 18.x (Note: React 19 RC is available, plan to upgrade when stable)
+- TypeScript 5.x
+- Tailwind CSS 3.x
+- @cloudflare/next-on-pages >= 1.8.5
+
+## Cloudflare Pages Requirements
+1. Runtime Compatibility:
+   - All server-side components must use Edge Runtime
+   - Server components include:
+     - App Router layouts
+     - API routes
+     - Middleware
+     - Server actions
+
+2. Build Configuration:
+   - Build command: `npx @cloudflare/next-on-pages`
+   - Build output directory: `.vercel/output/static` (configured in wrangler.toml)
+   - Node.js compatibility flags enabled
+
+3. Environment Variables:
+   - NEXT_PUBLIC_SUPABASE_URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY
+   - Additional secrets managed via Cloudflare dashboard
+
+4. Required Files:
+   - wrangler.toml for Cloudflare configuration
+   - next.config.mjs with Edge Runtime setup
+   - Updated package.json with Cloudflare build scripts
+
+## Upgrade Planning
+We acknowledge that both Next.js and React have Release Candidates available for their next major versions. Our strategy:
+1. Start with stable versions (Next.js 14, React 18)
+2. Monitor RC releases and their stability
+3. Plan upgrade path once stable versions are released
+4. Test upgrade impacts in a staging environment
+5. Document any breaking changes and required modifications
+
+## Deployment Strategy
+1. Local Development:
+   - `npm run dev` for standard Next.js development
+   - `npm run preview` to test Cloudflare Pages locally
+
+2. Production Deployment:
+   - Automatic deployments via GitHub integration
+   - Manual deployments via `npm run deploy`
+   - Preview deployments for pull requests
+
+3. Environment Management:
+   - Development: Local environment
+   - Preview: Pull request deployments
+   - Production: Main branch deployments
+
+## Future Decisions Pending
+- State management approach
+- Testing framework
+

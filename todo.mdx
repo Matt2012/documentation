@@ -1,0 +1,142 @@
+---
+title: 'To Do'
+description: 'ZenBot Implementation TODO List'
+---
+
+# ZenBot Implementation TODO List
+
+This document tracks the implementation progress of ZenBot, our organization's knowledge hub. Tasks will be crossed out as they are completed.
+
+## Vision and Documentation
+- [x] Create initial OVERVIEW.md defining ZenBot's purpose
+- [x] Define core platform capabilities
+- [ ] Document integration possibilities
+- [ ] Create user personas and journey maps
+- [ ] Define success metrics
+- [ ] Create product roadmap
+
+## Architecture Decisions
+- [x] Choose between Next.js and Vite - Selected Next.js 14 with React 18
+- [x] Select backend platform - Chose Supabase for database, auth, and storage
+- [x] Choose UI component library - Selected shadcn/ui for modern, accessible components
+- [x] Plan database schema - Created comprehensive multi-tenant structure
+- [ ] Plan API structure
+- [ ] Design authentication flow with Supabase
+
+## Core Infrastructure
+- [x] Set up Next.js 14 project
+  - [x] Create project with `create-next-app`
+  - [x] Configure TypeScript
+  - [x] Set up app directory structure
+  - [x] Configure environment variables
+  - [ ] Document upgrade considerations for Next.js/React RC
+- [x] Set up domain structure (see `DOMAINS.md` for details)
+  - [x] Configure development domains (localhost:3000)
+  - [ ] Set up production domains (domain.com, hub.domain.com, run.zen.bot)
+  - [ ] Configure Cloudflare Pages deployment
+  - [ ] Set up middleware for domain routing
+  - [ ] Configure environment variables for domains
+- [x] Set up shadcn/ui
+  - [x] Run `npx shadcn@latest init`
+  - [x] Configure component installation directory
+  - [x] Add initial components (button, card, dialog, form components)
+  - [x] Set up Tailwind CSS theme
+- [ ] Set up Supabase project
+- [ ] Create initial database tables and functions
+- [ ] Set up Row Level Security policies
+- [ ] Configure queue workers for async operations
+- [ ] Implement company-based multi-tenancy
+- [ ] Implement basic routing structure
+- [ ] Set up document storage system
+- [ ] Create authentication system
+
+## Document Management
+- [ ] Implement document viewer for hub page
+  - [ ] Create basic document list view
+  - [ ] Add document preview functionality
+  - [ ] Implement sorting and filtering
+  - [ ] Add search capabilities
+  - [ ] Create list/grid view toggle
+  - [x] Set up next-mdx-remote for MDX processing
+  - [ ] Implement MDX content caching strategy
+  - [ ] Add support for dynamic imports in MDX
+  - [ ] Create MDX component library
+- [ ] Set up example documentation sections
+  - [ ] Create directory structure for examples
+    - [ ] Set up `/hub/docs/example1` route
+    - [ ] Set up `/hub/docs/example2` route
+  - [ ] Create configuration files
+    - [ ] `src/config/docs/docs-example1.ts`
+    - [ ] `src/config/docs/docs-example2.ts`
+  - [ ] Set up content directories
+    - [ ] `src/docs/example1` for installation guide
+    - [ ] `src/docs/example2` for components
+  - [ ] Import and adapt example MDX content
+  - [ ] Add documentation links to hub page
+- [ ] Implement local document storage system
+- [ ] Create TipTap editor integration
+- [ ] Build document versioning system
+- [ ] Implement remote document sync system
+- [ ] Add support for Confluence integration
+- [ ] Add support for Google Docs integration
+- [ ] Add support for Notion integration
+
+## AI Integration
+- [ ] Set up AI service infrastructure
+- [ ] Implement document indexing system
+- [ ] Create AI query processing system
+- [ ] Build AI-powered search functionality
+- [ ] Implement AI wizard for data source configuration
+- [ ] Add context-aware suggestions
+- [ ] Implement knowledge graph visualization
+- [ ] Create AI-powered document summarization
+
+## Data Source Integration
+- [ ] Create data source connection framework
+- [ ] Implement Google Sheets integration
+- [ ] Add REST API data source support
+- [ ] Build KPI suggestion system
+- [ ] Create data reporting system
+- [ ] Add Slack integration
+- [ ] Add Microsoft Teams integration
+- [ ] Implement email integration
+
+## User Interface
+- [x] Create landing page
+  - [x] Hero section
+  - [x] Features section
+  - [x] Integrations section
+  - [x] Use cases section
+  - [x] FAQ section
+  - [x] CTA section
+  - [x] Footer
+- [ ] Build homepage editor in system panel
+- [ ] Create multi-step form component
+- [ ] Implement list and card view components
+- [ ] Add TipTap editor component
+- [ ] Create chart components
+- [ ] Build system panel interface
+
+## Access Control
+- [ ] Implement role-based access control
+- [ ] Create user group management
+- [ ] Build department-level permissions
+- [ ] Add document-level access controls
+- [ ] Implement permission inheritance system
+
+## Documentation
+- [ ] Create API documentation
+- [ ] Write user guide
+- [ ] Document system architecture
+- [ ] Create integration guides
+- [ ] Write deployment documentation
+
+## Future Enhancements
+- [ ] Evaluate Next.js RC features for potential upgrade
+- [ ] Evaluate React 19 RC features for potential upgrade
+- [ ] Create upgrade testing plan
+- [ ] Set up staging environment for testing upgrades
+- [ ] Plan AI model upgrades
+- [ ] Research additional integration possibilities
+- [ ] Explore advanced visualization options
+- [ ] Plan mobile app development

@@ -1,0 +1,136 @@
+---
+title: 'Cloudflare Configuration'
+description: 'Cloudflare Configuration'
+---
+
+# Cloudflare Configuration
+
+This document outlines the Cloudflare configuration for the Zenbot application.
+
+## Domain Structure
+
+The application uses multiple subdomains for different purposes:
+- `zen.bot`: Main marketing and documentation site
+- `hub.zen.bot`: User dashboard and management interface (renders hub content directly)
+- `run.zen.bot`: Bot execution environment
+
+## DNS Configuration
+
+### Main Domain (zen.bot)
+- Type: CNAME
+- Name: @
+- Target: [main-project].pages.dev
+- Proxy status: Proxied ☁️
+
+### Hub Subdomain (hub.zen.bot)
+- Type: CNAME
+- Name: hub
+- Target: [main-project].pages.dev (same as main domain)
+- Proxy status: Proxied ☁️
+
+### Run Subdomain (run.zen.bot)
+- Type: CNAME
+- Name: run
+- Target: [run-project].pages.dev
+- Proxy status: Proxied ☁️
+
+## Cloudflare Pages Configuration
+
+### Main Project (includes hub)
+Build settings:
+- Framework preset: Next.js
+- Build command: `npm run build`
+- Build output directory: `out`
+- Node.js version: 18.x
+- Custom domains: 
+  - zen.bot (primary)
+  - hub.zen.bot
+
+### Environment Variables
+Required environment variables in Cloudflare Pages:
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous key
+- `NEXT_PUBLIC_HUB_URL`: Set to https://hub.zen.bot in production
+
+## Domain Handling
+
+The application automatically handles different domains through client-side detection:
+
+1. When accessing hub.zen.bot:
+   - The root page (/) detects the hostname
+   - Directly renders the hub interface
+   - No redirection needed
+
+2. When accessing zen.bot:
+   - Shows the main marketing site
+   - Hub content is available at /hub path
+
+## Next.js Configuration
+
+The application uses static export configuration in `next.config.js`:
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+  },
+  trailingSlash: true,
+  env: {
+    NEXT_PUBLIC_HUB_URL: process.env.NEXT_PUBLIC_HUB_URL || 'http://localhost:3000'
+  }
+}
+
+module.exports = nextConfig
+```
+
+## Deployment Process
+
+1. Push changes to the main branch
+2. Cloudflare Pages automatically:
+   - Detects the changes
+   - Runs the build command
+   - Creates static export
+   - Deploys to both zen.bot and hub.zen.bot
+
+## Local Development
+
+1. Set up environment variables in `.env.local`:
+   ```
+   NEXT_PUBLIC_HUB_URL=http://localhost:3000
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-key
+   ```
+
+2. Run development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Access the site:
+   - Main site: http://localhost:3000
+   - Hub: http://localhost:3000/hub
+
+## Security
+
+- SSL/TLS: Managed automatically by Cloudflare
+- Always use HTTPS
+- Proxy status enabled for all subdomains
+- Edge caching enabled for static assets
+
+## Monitoring
+
+Monitor the application through:
+- Cloudflare Analytics
+- Pages deployment logs
+- Real-time logs in the Pages dashboard
+
+## Troubleshooting
+
+If the hub subdomain is not working:
+1. Verify DNS points to the correct Pages project
+2. Check SSL certificates are active
+3. Clear browser cache and Cloudflare cache
+4. Check browser console for any client-side errors
+5. Verify the hostname detection is working correctly

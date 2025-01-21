@@ -1,0 +1,42 @@
+---
+title: 'ZenBot Development Rules and Guidelines'
+description: 'Rules for AI Code Development'
+---
+
+# ZenBot Development Rules and Guidelines
+
+## Project Structure and Organization
+
+### Domain Structure and Routing
+See `DOMAINS.md` for detailed information about:
+- Development and production domain setup
+- Project structure for multi-domain support
+- Middleware configuration
+- Cloudflare Pages deployment
+- Environment variable configuration
+
+### Code Organization
+1. All new features should follow the app directory structure outlined in `DOMAINS.md`
+2. Keep domain-specific code within its respective directory (hub/, run/)
+3. Shared components should be placed in the components directory
+4. Use appropriate layouts for each domain section
+
+### Development Guidelines
+1. Always run the development server using `npm run dev`
+2. Test all features across all domain paths during development
+3. Ensure middleware handles routing correctly in both development and production
+4. Keep environment variables up to date as specified in `DOMAINS.md`
+
+### Deployment Rules
+1. All deployments must be done through Cloudflare Pages
+2. Verify custom domain configuration before deployment
+3. Test all domain routes after deployment
+4. Ensure environment variables are properly set in Cloudflare
+5. Monitor domain health after deployment
+
+### Code Quality
+1. Follow TypeScript best practices
+2. Use proper type definitions
+3. Keep components modular and reusable
+4. Write clear and concise documentation
+5. Follow the established project structure

@@ -1,0 +1,133 @@
+---
+title: 'Database Schema Documentation'
+description: 'Database Schema Documentation'
+---
+
+# Database Schema Documentation
+
+## Overview
+The database is designed around a multi-tenant architecture using Supabase, with built-in Row Level Security (RLS) and automated business logic through triggers and functions.
+
+## Core Tables
+
+### Companies
+```sql
+CREATE TABLE companies (
+  id uuid PRIMARY KEY,
+  name varchar(255) NOT NULL,
+  llm_model_function_calling_id int2,
+  llm_model_content_completion_id int2
+);
+```
+Central table for multi-tenant support. Each company can configure their own LLM models.
+
+### Profiles
+```sql
+CREATE TABLE profiles (
+  id uuid PRIMARY KEY DEFAULT auth.uid(),
+  name varchar(255),
+  email varchar(255),
+  my_functions jsonb,
+  my_apps jsonb,
+  my_preferences jsonb
+);
+```
+Extends Supabase auth with user preferences and installed apps/functions.
+
+### Docs
+```sql
+CREATE TABLE docs (
+  id uuid PRIMARY KEY,
+  name varchar(255),
+  description text,
+  content text,
+  properties jsonb,
+  history jsonb,
+  parent_id uuid,
+  is_cached bool,
+  user_id uuid,
+  company_id uuid,
+  acl_id int2,
+  status_id int2
+);
+```
+Core document storage with hierarchical structure support.
+
+### Docs Sync
+```sql
+CREATE TABLE docs_sync (
+  id uuid PRIMARY KEY,
+  doc_id uuid NOT NULL,
+  source_type varchar(50),
+  source_url text,
+  source_id varchar(255),
+  include_children bool,
+  synced_at timestamp,
+  sync_status varchar(20),
+  vector_id uuid
+);
+```
+Manages synchronization with external document sources.
+
+### Apps
+```sql
+CREATE TABLE apps (
+  id uuid PRIMARY KEY,
+  name varchar(255),
+  description text,
+  json_store text,
+  category_id int2,
+  acl_id int2,
+  status_id int2,
+  app_type_id int2
+);
+```
+Stores application configurations and metadata.
+
+## Business Logic
+
+### Automatic Company ID Assignment
+The `set_doc_company_id` trigger function automatically assigns the company_id when creating documents:
+```sql
+CREATE TRIGGER set_doc_company_id_trigger 
+BEFORE INSERT OR UPDATE ON docs
+FOR EACH ROW EXECUTE FUNCTION set_doc_company_id();
+```
+
+### App Installation Flow
+The `install_app` function manages the app installation process:
+1. Validates user permissions
+2. Checks app compatibility
+3. Updates user's my_apps and my_functions
+4. Sets up necessary permissions
+
+### Function Management
+The `fetch_and_format_app_functions` function:
+- Retrieves available functions for the current user
+- Formats them for API consumption
+- Handles permission checks
+
+## Queue-based Operations
+Complex operations are handled through Supabase's queue system:
+1. Document Synchronization
+2. Vector Embeddings Generation
+3. Bulk Operations
+4. Async Data Processing
+
+## Security Model
+- Row Level Security (RLS) policies enforce data isolation between companies
+- ACL system provides fine-grained access control within companies
+- All operations go through business logic functions to ensure consistency
+
+## Automated Behaviors
+1. Company ID Assignment: Automatically set on document creation
+2. Updated Timestamps: Managed by triggers
+3. User Association: Automatic through auth.uid()
+4. Document History: Tracked through JSON updates
+5. Cache Management: Automatic through is_cached flag
+
+## Extension Points
+1. Custom App Integration: Through the apps table
+2. External Data Sources: Via docs_sync
+3. User Preferences: Through jsonb columns
+4. Function Registry: Dynamic function loading

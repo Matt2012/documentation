@@ -1,0 +1,167 @@
+---
+title: 'Zenbot Platform Specification'
+description: 'Zenbot Platform Specification'
+---
+
+# Zenbot Platform Specification
+
+## Domain Architecture
+
+The platform is divided into three main subdomains:
+
+1. **zen.bot** - Main landing page (public)
+2. **hub.zen.bot** - Documentation and platform interface (authenticated users)
+3. **run.zen.bot** - Admin dashboard (platform administrators)
+
+## Component Specifications
+
+### 1. zen.bot (Landing Page)
+
+The landing page will be built using shadcn components with a modern, clean design focused on conversion.
+
+#### Key Components:
+
+- **Hero Section**
+  - Large headline highlighting platform value proposition
+  - Subheadline explaining key benefits
+  - CTA buttons for "Get Started" and "Learn More"
+  - Background with subtle animation/gradient
+
+- **Features Grid**
+  - 3-4 key features with icons
+  - Brief descriptions
+  - Using shadcn/ui Card components
+
+- **Social Proof Section**
+  - User testimonials in Carousel component
+  - Integration statistics
+  - Partner logos (if applicable)
+
+- **Pricing Section**
+  - Pricing tiers using shadcn/ui Card components
+  - Feature comparison table
+  - CTA buttons for each tier
+
+- **Navigation**
+  - Clean navbar with logo
+  - Links: Features, Pricing, Documentation
+  - Sign In/Register buttons
+  - Mobile-responsive hamburger menu
+
+- **Footer**
+  - Company information
+  - Quick links
+  - Social media links
+  - Newsletter signup
+
+### 2. hub.zen.bot (User Platform)
+
+Documentation and platform interface for authenticated users, styled similar to Mintify docs.
+
+#### Key Components:
+
+- **Navigation Bar**
+  - Platform logo
+  - Search bar
+  - User profile dropdown
+  - Manage button (for admins/owners only)
+
+- **Sidebar**
+  - Collapsible categories
+  - Search filter
+  - Quick navigation links
+
+- **Main Content Area**
+  - Documentation viewer
+  - Code snippets with syntax highlighting
+  - Interactive examples
+  - API references
+
+- **Admin Controls** (visible when "Manage" is toggled)
+  - Additional tabs for CRUD operations
+  - Content management interface
+  - User management tools
+
+### 3. run.zen.bot (Admin Dashboard)
+
+Platform administration interface for managing content and settings.
+
+#### Key Components:
+
+- **Admin Sidebar**
+  - Dashboard overview
+  - Content management
+  - User management
+  - Settings
+  - Analytics
+
+- **Dashboard Widgets**
+  - User statistics
+  - Content metrics
+  - System health indicators
+  - Recent activities
+
+- **Content Management**
+  - List management interface
+  - Content editor with preview
+  - Version control
+  - Publishing workflow
+
+- **User Management**
+  - User list with filtering
+  - Role management
+  - Access control
+  - Activity logs
+
+## Technical Stack
+
+- **Frontend Framework**: Next.js
+- **UI Components**: shadcn/ui
+- **Authentication**: Next-Auth
+- **Styling**: Tailwind CSS
+- **Database**: (TBD based on requirements)
+
+## Design System
+
+- **Colors**
+  - Primary: (TBD)
+  - Secondary: (TBD)
+  - Accent: (TBD)
+  - Neutral shades for text and backgrounds
+
+- **Typography**
+  - Inter for body text
+  - System fonts for headings
+  - Monospace for code blocks
+
+- **Components**
+  - All components from shadcn/ui
+  - Custom components will maintain consistent styling
+  - Dark/Light mode support
+
+## Security Considerations
+
+- JWT-based authentication
+- Role-based access control
+- Rate limiting
+- CSRF protection
+- Security headers
+- Regular security audits
+
+## Future Considerations
+
+- Internationalization support
+- API documentation
+- Mobile app integration
+- Advanced analytics
+- Community features
+
+## Development Workflow
+
+1. Component library setup
+2. Landing page development
+3. Authentication system
+4. Documentation platform
+5. Admin dashboard
+6. Testing and QA
+7. Deployment and monitoring setup
