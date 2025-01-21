@@ -53,8 +53,14 @@
       "group": "Get Started",
       "pages": [
         "overview",
+        "approach",
+        "architecture",
+        "product-spec",
         "rules",
-        "development"
+        "schema",
+        "cloudflare",
+        "todo",
+        "domains"
       ]
     },
     {
