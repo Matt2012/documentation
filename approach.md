@@ -1,3 +1,8 @@
+---
+title: 'Approach'
+description: 'Documentation-Driven Development Approach'
+---
+
 # Documentation-Driven Development Approach
 
 This document outlines our systematic approach to building software through documentation-first development.
